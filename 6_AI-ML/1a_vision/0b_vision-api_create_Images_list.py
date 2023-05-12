@@ -86,11 +86,11 @@ The valid values - and their corresponding meanings - for
     %s
 '''.strip() % (
     len(DETECTION_TYPES) - 1,
-    # The numbered list of detection types
     '\n    '.join(
-        # Don't present the 0th detection type ('UNSPECIFIED') as an option.
-        '%s: %s' % (i + 1, detection_type)
-        for i, detection_type in enumerate(DETECTION_TYPES[1:])))
+        f'{i + 1}: {detection_type}'
+        for i, detection_type in enumerate(DETECTION_TYPES[1:])
+    ),
+)
 
 
 if __name__ == '__main__':

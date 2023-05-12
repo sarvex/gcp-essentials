@@ -119,7 +119,7 @@ def main(unused_argv):
     if FLAGS.output_dir:
         model_dir = FLAGS.output_dir
     else:
-        model_dir = "output/%s_%s" % (FLAGS.model, FLAGS.dataset)
+        model_dir = f"output/{FLAGS.model}_{FLAGS.dataset}"
 
     DATASETS[FLAGS.dataset].prepare()
 

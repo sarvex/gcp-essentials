@@ -5,11 +5,12 @@
 Select "GPU" in the Accelerator drop-down in Notebook Settings (Edit menu)
 """
 
+
 import tensorflow as tf
 device_name = tf.test.gpu_device_name()
 if device_name != '/device:GPU:0':
   raise SystemError('GPU device not found')
-print('Found GPU at: {}'.format(device_name))
+print(f'Found GPU at: {device_name}')
 
 """# Observe TensorFlow speedup on GPU relative to CPU
 This example constructs a typical convolutional neural network layer over a
@@ -42,9 +43,9 @@ def gpu():sess.run(net_gpu)
 print('Time (s) to convolve 32x7x7x3 filter over random 100x100x100x3 images '
       '(batch x height x width x channel). Sum of ten runs.')
 cpu_time = timeit.timeit('cpu()', number=10, setup="from __main__ import cpu")
-print('CPU (s):' + str(cpu_time))
+print(f'CPU (s):{str(cpu_time)}')
 gpu_time = timeit.timeit('gpu()', number=10, setup="from __main__ import gpu")
-print('GPU (s):' + str(gpu_time))
-print('GPU speedup over CPU: {}x'.format(int(cpu_time/gpu_time)))
+print(f'GPU (s):{str(gpu_time)}')
+print(f'GPU speedup over CPU: {int(cpu_time / gpu_time)}x')
 
 sess.close()

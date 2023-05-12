@@ -274,7 +274,7 @@ def save_imgs(x, fname):
               cmap=cm.get_cmap("binary"))
     ax.axis("off")
   canvas.print_figure(fname, format="png")
-  print("saved %s" % fname)
+  print(f"saved {fname}")
 
 
 def visualize_training(images_val,
@@ -293,16 +293,17 @@ def visualize_training(images_val,
       determines their filenames (Python `str`).
     viz_n: The number of images from each batch to visualize (Python `int`).
   """
-  save_imgs(images_val[:viz_n],
-            os.path.join(log_dir, "{}_inputs.png".format(prefix)))
-  save_imgs(reconstructed_images_val[:viz_n],
-            os.path.join(log_dir,
-                         "{}_reconstructions.png".format(prefix)))
+  save_imgs(images_val[:viz_n], os.path.join(log_dir, f"{prefix}_inputs.png"))
+  save_imgs(
+      reconstructed_images_val[:viz_n],
+      os.path.join(log_dir, f"{prefix}_reconstructions.png"),
+  )
 
   if random_images_val is not None:
-    save_imgs(random_images_val[:viz_n],
-              os.path.join(log_dir,
-                           "{}_prior_samples.png".format(prefix)))
+    save_imgs(
+        random_images_val[:viz_n],
+        os.path.join(log_dir, f"{prefix}_prior_samples.png"),
+    )
 
 
 def build_fake_data(num_examples=10):
@@ -336,7 +337,7 @@ def download(directory, filename):
   if not tf.gfile.Exists(directory):
     tf.gfile.MakeDirs(directory)
   url = os.path.join(BERNOULLI_PATH, filename)
-  print("Downloading %s to %s" % (url, filepath))
+  print(f"Downloading {url} to {filepath}")
   urllib.request.urlretrieve(url, filepath)
   return filepath
 
@@ -359,10 +360,8 @@ def build_input_pipeline(data_dir, batch_size, heldout_size, mnist_type):
   """Builds an Iterator switching between train and heldout data."""
   # Build an iterator over training batches.
   if mnist_type in [MnistType.FAKE_DATA, MnistType.THRESHOLD]:
-    if mnist_type == MnistType.FAKE_DATA:
-      mnist_data = build_fake_data()
-    else:
-      mnist_data = mnist.read_data_sets(data_dir)
+    mnist_data = (build_fake_data() if mnist_type == MnistType.FAKE_DATA else
+                  mnist.read_data_sets(data_dir))
     training_dataset = tf.data.Dataset.from_tensor_slices(
         (mnist_data.train.images, np.int32(mnist_data.train.labels)))
     heldout_dataset = tf.data.Dataset.from_tensor_slices(
@@ -405,7 +404,7 @@ def main(argv):
                           in FLAGS.decoder_layers.split(",")]
   FLAGS.activation = getattr(tf.nn, FLAGS.activation)
   if tf.gfile.Exists(FLAGS.model_dir):
-    tf.logging.warn("Deleting old log directory at {}".format(FLAGS.model_dir))
+    tf.logging.warn(f"Deleting old log directory at {FLAGS.model_dir}")
     tf.gfile.DeleteRecursively(FLAGS.model_dir)
   tf.gfile.MakeDirs(FLAGS.model_dir)
 

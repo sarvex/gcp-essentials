@@ -21,7 +21,7 @@ def main(project_id, instance_id, table_id):
     client = bigtable.Client(project=project_id, admin=True)
     instance = client.instance(instance_id)
 
-    print('Creating the {} table.'.format(table_id))
+    print(f'Creating the {table_id} table.')
     table = instance.table(table_id)
 
     print('Creating column family cf1 with Max Version GC rule...')
@@ -31,14 +31,14 @@ def main(project_id, instance_id, table_id):
     if not table.exists():
         table.create(column_families=column_families)
     else:
-        print("Table {} already exists.".format(table_id))
+        print(f"Table {table_id} already exists.")
 
     print('Writing some greetings to the table.')
     greetings = ['Hello World!', 'Hello Cloud Bigtable!', 'Hello Python!']
     rows = []
     column = 'greeting'.encode()
     for i, value in enumerate(greetings):
-        row_key = 'greeting{}'.format(i).encode()
+        row_key = f'greeting{i}'.encode()
         row = table.row(row_key)
         row.set_cell(column_family_id,
                      column,
@@ -63,7 +63,7 @@ def main(project_id, instance_id, table_id):
         cell = row.cells[column_family_id][column][0]
         print(cell.value.decode('utf-8'))
 
-    print('Deleting the {} table.'.format(table_id))
+    print(f'Deleting the {table_id} table.')
     table.delete()
 
 

@@ -11,6 +11,7 @@ https://airflow.apache.org/concepts.html#variables
   bucket.
 """
 
+
 import datetime
 import os
 
@@ -30,8 +31,9 @@ WORDCOUNT_JAR = (
 wordcount_args = ['wordcount', 'gs://pub/shakespeare/rose.txt', output_file]
 
 yesterday = datetime.datetime.combine(
-    datetime.datetime.today() - datetime.timedelta(1),
-    datetime.datetime.min.time())
+    datetime.datetime.now() - datetime.timedelta(1),
+    datetime.datetime.min.time(),
+)
 
 default_dag_args = {
     # Setting start date as yesterday starts the DAG immediately when it is

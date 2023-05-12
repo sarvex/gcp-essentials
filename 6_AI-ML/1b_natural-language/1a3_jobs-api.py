@@ -13,7 +13,7 @@ def basic_keyword_search(client_service, company_name, keyword):
     }
     job_query = {'query': keyword}
     if company_name is not None:
-        job_query.update({'company_names': [company_name]})
+        job_query['company_names'] = [company_name]
     request = {
         'mode': 'JOB_SEARCH',
         'request_metadata': request_metadata,
@@ -43,7 +43,7 @@ def histogram_search(client_service, company_name):
         'histogram_facets': histogram_facets
     }
     if company_name is not None:
-        request.update({'query': {'company_names': [company_name]}})
+        request['query'] = {'company_names': [company_name]}
     response = client_service.jobs().search(body=request).execute()
     print(response)
 
